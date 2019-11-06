@@ -1,0 +1,57 @@
+{
+    "train": {
+        "batch_size": 256,
+        "optimizer": "sgd",
+        "learning_rate": 0.005,
+        "momentum": 0.99,
+        "patience": 16,
+        "clipnorm": 8
+    },
+    "model": {
+        "seq_length": 1000,
+        "target_length": 1,
+
+        "activation": "gelu",
+        "batch_norm": true,
+        "bn_momentum": 0.9,
+
+        "trunk": [
+            {
+                "name": "conv_block",
+                "filters": 128,
+                "kernel_size": 17,
+                "pool_size": 5
+            },
+            {
+                "name": "conv_block",
+                "filters": 144,
+                "kernel_size": 9,
+                "pool_size": 5
+            },
+        {
+                "name": "conv_tower",
+                "filters_init": 162,
+                "filters_mult": 1.125,
+                "kernel_size": 5,
+                "pool_size": 2,
+                "repeat": 3
+            }
+        ],
+        "head": [
+        {
+                "name": "conv_block",
+                "filters": 32,
+        "kernel_size": 5
+            },
+        {
+        "name": "Cropping1D",
+        "cropping": 2
+        },
+        {
+        "name": "dense",
+        "units": 4,
+        "activation": "softplus"
+        }
+    ]
+    }
+}
